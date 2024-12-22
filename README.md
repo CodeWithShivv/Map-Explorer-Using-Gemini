@@ -70,17 +70,4 @@ Then, define the key in res/values/strings.xml:
 
 
 
-How It Works
-Search Functionality: The app allows users to search for places such as "Ancient Places", "Oldest Places in India". Upon submitting the search query, the app calls the Gemini API to generate a response with relevant location data.
-
-Coordinates Retrieval: The Gemini API response contains location details (such as the name of the place). The app then uses Google Maps API to retrieve the geographical coordinates (latitude and longitude) of the selected location.
-
-Map Navigation: Once the coordinates are obtained, the map zooms into that location using Google Maps. It marks the location with a custom marker, and users can view the place on the map.
-
-BLoC for State Management: The app uses the BLoC pattern to manage the state. Events like search queries trigger changes in the state, and the UI updates accordingly. This allows for a smooth and responsive user experience.
-
-Dio for Networking: Dio handles all network requests to fetch data from the Gemini API and Google Maps API, ensuring efficient error handling and network communication.
-
-
-
 
