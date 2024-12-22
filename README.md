@@ -59,16 +59,15 @@ For Android, make sure to add the Google Maps API Key to the AndroidManifest.xml
     android:name="com.google.android.geo.API_KEY"
     android:value="@string/google_maps_api_key" />
 </application>
-Then, define the key in res/values/strings.xml:
 
+    
+Then, define the key in res/values/strings.xml:
 
 <resources>
   <string name="google_maps_api_key">YOUR_GOOGLE_MAPS_API_KEY</string>
 </resources>
 
-5. Build and Run the Application
-After setting up the environment and adding your API keys, you can now run the app:
-flutter run
+
 
 How It Works
 Search Functionality: The app allows users to search for places such as "Ancient Places", "Oldest Places in India". Upon submitting the search query, the app calls the Gemini API to generate a response with relevant location data.
@@ -81,35 +80,6 @@ BLoC for State Management: The app uses the BLoC pattern to manage the state. Ev
 
 Dio for Networking: Dio handles all network requests to fetch data from the Gemini API and Google Maps API, ensuring efficient error handling and network communication.
 
-Example Workflow
-Search for "Ancient Places":
-The user types "Ancient Places" into the search bar.
-The app sends the query to Gemini API to get a list of ancient places.
-The app retrieves the coordinates of the ancient place from the API response.
-The map updates to display the location, with a marker showing the city name.
-Search for "Oldest Places in India":
-The user types "Oldest Places in India".
-The app queries the Gemini API, receives the response, and extracts the location coordinates.
-The map navigates to the first result, zooming into the specified place.
-Libraries and Tools Used
-Flutter: Framework for building the mobile application.
-Dio: HTTP client for making API requests.
-BLoC: State management pattern used for handling app state.
-Google Maps API: For rendering maps and displaying coordinates.
-Gemini API: For generating AI-driven location-based responses.
-Geocoding: Used for converting coordinates to place names.
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-Acknowledgments
-This project is inspired by the Map Explorer demo and integrates with Google Maps API and Gemini API to provide users with an interactive and dynamic map experience.
 
 
-### Key Sections in the README:
-- **Project Overview**: Explains the core features, technologies, and architectural design of the app.
-- **Setup Instructions**: Details the steps required to set up the app locally.
-- **How It Works**: Provides an overview of how the app functions and the flow from searching for places to navigating to those places on the map.
-- **Libraries and Tools Used**: Lists the essential tools and libraries used in the project.
-- **Example Workflow**: Describes the expected user flow from searching for places to seeing the results on the map.
 
-Let me know if you need further adjustments or additions!
