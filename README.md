@@ -48,6 +48,7 @@ Create a .env file in the root directory of your project and add your API keys:
 
 GEMINI_API_KEY=YOUR_GEMINI_API_KEY
 GOOGLE_MAPS_API_KEY=YOUR_GOOGLE_MAPS_API_KEY
+
 Replace YOUR_GEMINI_API_KEY and YOUR_GOOGLE_MAPS_API_KEY with the actual keys.
 
 4. Update Android Configuration
