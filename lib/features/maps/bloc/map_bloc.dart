@@ -12,13 +12,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   final MapRepository mapRepository;
 
   final TextEditingController _searchController = TextEditingController();
-  late GoogleMapController _controller;
-  GoogleMapController get controller => _controller;
+  late GoogleMapController controller;
+
   TextEditingController get searchController => _searchController;
-  
-  set controller(GoogleMapController controller) {
-    _controller = controller;
-  }
 
   MapBloc(this.mapRepository) : super(MapInitial()) {
     on<MapCreatedEvent>(_onMapCreated);
@@ -26,18 +22,13 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   }
 
   void _onMapCreated(MapCreatedEvent event, Emitter<MapState> emit) {
-    _controller = event.controller;
+    controller = event.controller;
     emit(MapLoaded(
-        controller: _controller,
-        markers: state.markers,
-        locations: const [
-          MapLocation(
-              name: ' New York City', latitude: 40.7128, longitude: -74.0060)
-        ]));
+        controller: controller, markers: state.markers, locations: const []));
   }
 
   void _onAddMarker(AddMarkerEvent event, Emitter<MapState> emit) {
     final markers = Set<Marker>.from(state.markers)..add(event.marker);
-    emit(MapLoaded(controller: _controller, markers: markers, locations: []));
+    emit(MapLoaded(controller: controller, markers: markers, locations: []));
   }
 }

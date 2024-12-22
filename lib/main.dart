@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gemini_map_explorer/core/di/service_locator.dart';
 import 'package:gemini_map_explorer/core/routes/routes.dart';
+import 'package:gemini_map_explorer/core/theme/app_theme.dart';
 import 'package:gemini_map_explorer/features/gen_ai/bloc/gemini_ai_bloc.dart';
 import 'package:gemini_map_explorer/features/gen_ai/repositories/gemini_ai_repository.dart';
 import 'package:gemini_map_explorer/features/maps/bloc/map_bloc.dart';
@@ -23,10 +24,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = GoogleFonts.robotoMonoTextTheme(
-      Theme.of(context).textTheme,
-    );
-
     return MultiBlocProvider(
       providers: [
         BlocProvider<GeminiAIBloc>(
@@ -40,10 +37,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Map Explorer',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          textTheme: textTheme,
-        ),
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
         initialRoute: AppRoutes.home,
         onGenerateRoute: AppRoutes.generateRoute,
       ),

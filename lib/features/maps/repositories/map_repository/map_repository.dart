@@ -1,14 +1,19 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:gemini_map_explorer/core/network/api_endpoints.dart';
 import 'package:gemini_map_explorer/features/maps/models/maps/map_location.dart';
 
 class MapRepository {
-  final Dio _dio = Dio();
+  final Dio _dio;
+
+  MapRepository(this._dio);
 
   Future<MapLocation?> getCoordinatesFromAddress(String address) async {
-    String googleMapsApiKey = dotenv.env['GOOGLE_MAPS_API_KEY'] ?? '';
+    final String googleMapsApiKey = dotenv.env['GOOGLE_MAPS_API_KEY'] ?? '';
     final String url =
-        'https://maps.googleapis.com/maps/api/geocode/json?address=${Uri.encodeComponent(address)}&key=$googleMapsApiKey';
+        '${ApiEndpoints.getCoordinates}?address=${Uri.encodeComponent(address)}&key=$googleMapsApiKey';
 
     final response = await _dio.get(url);
 

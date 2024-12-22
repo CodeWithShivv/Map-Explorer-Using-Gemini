@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:gemini_map_explorer/features/gen_ai/bloc/gemini_ai_event.dart';
 import 'package:gemini_map_explorer/features/gen_ai/bloc/gemini_ai_state.dart';

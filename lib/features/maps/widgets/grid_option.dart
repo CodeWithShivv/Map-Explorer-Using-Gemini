@@ -22,12 +22,9 @@ class GridOption extends StatelessWidget {
         Navigator.pop(context);
         FocusScope.of(context).unfocus();
         context.read<GeminiAIBloc>().add(GenerateAIResponseEvent(query));
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Selected: $title')),
-        );
       },
       child: Card(
-        color: const Color(0xff1f2123),
+        color: Theme.of(context).inputDecorationTheme.fillColor,
         child: Center(
           child: Text(
             title,

@@ -16,7 +16,7 @@ class MapExplorerSearchBar extends StatelessWidget {
       decoration: InputDecoration(
         hintStyle: const TextStyle(color: Colors.white, fontSize: 14),
         hintText: 'Search for a place...',
-        fillColor: const Color(0xff181818),
+        fillColor: Theme.of(context).inputDecorationTheme.fillColor,
         filled: true,
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         border: OutlineInputBorder(
@@ -24,7 +24,8 @@ class MapExplorerSearchBar extends StatelessWidget {
           borderSide: BorderSide.none,
         ),
         suffixIcon: IconButton(
-          icon: const Icon(Icons.search, color: Colors.white),
+          icon: Icon(Icons.search,
+              color: Theme.of(context).inputDecorationTheme.suffixIconColor),
           onPressed: () {
             FocusScope.of(context).unfocus();
             context.read<GeminiAIBloc>().add(

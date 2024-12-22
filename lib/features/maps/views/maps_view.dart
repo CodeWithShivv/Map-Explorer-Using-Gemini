@@ -12,55 +12,44 @@ class MapsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GeminiAIBloc, GeminiAIState>(
+    return BlocConsumer<GeminiAIBloc, GeminiAIState>(
       builder: (BuildContext context, aiState) {
-        if (aiState is GeminiAISuccess) {
-          _navigateToLocation(context, aiState.location, aiState.caption);
-        }
-
         return Scaffold(
-          appBar: PreferredSize(
-            preferredSize:
-                Size.fromHeight(calculateAppBarHeight(context, aiState)),
-            child: MapExplorerAppBar(),
-          ),
-          body: Stack(
-            children: [
-              BlocBuilder<MapBloc, MapState>(
-                builder: (context, state) {
-                  return GoogleMap(
-                    mapType: MapType.normal,
-                    onMapCreated: (controller) {
-                      context.read<MapBloc>().controller = controller;
-                      context.read<MapBloc>().add(MapCreatedEvent(controller));
-                    },
-                    initialCameraPosition: const CameraPosition(
-                      target: LatLng(0, 0), // Center of the world map
-                      zoom: 2.0,
+          body: CustomScrollView(
+            slivers: [
+              SliverPersistentHeader(
+                  pinned: true,
+                  delegate: _MapExplorerPinnedHeader(
+                      maxExtentValue: calculateAppBarHeight(context, aiState),
+                      minExtentValue: calculateAppBarHeight(context, aiState))),
+              SliverToBoxAdapter(
+                child: Stack(
+                  children: [
+                    BlocBuilder<MapBloc, MapState>(
+                      builder: (context, state) {
+                        return SizedBox(
+                          height: MediaQuery.of(context).size.height,
+                          child: GoogleMap(
+                            mapType: MapType.normal,
+                            onMapCreated: (controller) {
+                              context.read<MapBloc>().controller = controller;
+                              context
+                                  .read<MapBloc>()
+                                  .add(MapCreatedEvent(controller));
+                            },
+                            initialCameraPosition: const CameraPosition(
+                              target: LatLng(0, 0), // Center of the world map
+                              zoom: 2.0,
+                            ),
+                            markers: state.markers,
+                            myLocationEnabled: true,
+                            compassEnabled: true,
+                          ),
+                        );
+                      },
                     ),
-                    markers: state.markers,
-                    myLocationEnabled: true,
-                    compassEnabled: true,
-                  );
-                },
-              ),
-              BlocBuilder(
-                bloc: context.read<GeminiAIBloc>(),
-                builder: (context, state) {
-                  if (state is GeminiAILoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.black,
-                      ),
-                    );
-                  }
-                  return const SizedBox.shrink();
-                },
-              ),
-              GestureDetector(
-                onTap: () {
-                  FocusScope.of(context).unfocus();
-                },
+                  ],
+                ),
               ),
             ],
           ),
@@ -69,19 +58,24 @@ class MapsView extends StatelessWidget {
               FloatingActionButtonLocation.centerFloat,
         );
       },
+      listener: (BuildContext context, GeminiAIState aiState) {
+        if (aiState is GeminiAISuccess) {
+          _navigateToLocation(context, aiState.location, aiState.caption);
+        }
+      },
     );
   }
 
   double calculateAppBarHeight(BuildContext context, GeminiAIState aiState) {
     final mediaQuery = MediaQuery.of(context);
-    double baseHeight = mediaQuery.size.height * 0.15;
+    double baseHeight = mediaQuery.size.height * 0.20;
 
     // Calculate extra height based on caption length
     double additionalHeight = 0.0;
     if (aiState is GeminiAISuccess && aiState.caption.isNotEmpty) {
       // Assuming ~40 characters fit in a single line. Adjust as necessary.
       int lines = (aiState.caption.length / 40).ceil();
-      additionalHeight = lines * 25.0; // 20px per line height
+      additionalHeight = lines * 25.0; // 25px per line height
     }
 
     return baseHeight + additionalHeight;
@@ -109,5 +103,33 @@ class MapsView extends StatelessWidget {
     );
 
     context.read<MapBloc>().add(AddMarkerEvent(marker));
+  }
+}
+
+class _MapExplorerPinnedHeader extends SliverPersistentHeaderDelegate {
+  final double minExtentValue;
+  final double maxExtentValue;
+
+  _MapExplorerPinnedHeader({
+    required this.minExtentValue,
+    required this.maxExtentValue,
+  });
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return MapExplorerAppBar();
+  }
+
+  @override
+  double get maxExtent => maxExtentValue;
+
+  @override
+  double get minExtent => minExtentValue;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return oldDelegate.maxExtent != maxExtent ||
+        oldDelegate.minExtent != minExtent;
   }
 }

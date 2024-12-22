@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gemini_map_explorer/features/maps/widgets/bottom_sheet_content.dart';
 
-
-// Take me some where button
 class FloatingActionButtonWidget extends StatelessWidget {
   const FloatingActionButtonWidget({super.key});
 
@@ -13,7 +11,7 @@ class FloatingActionButtonWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.5),
+            color: Theme.of(context).primaryColor.withOpacity(0.5),
             spreadRadius: 1,
             blurRadius: 5,
             offset: const Offset(0, 3),
@@ -29,7 +27,7 @@ class FloatingActionButtonWidget extends StatelessWidget {
           );
         },
         style: TextButton.styleFrom(
-          backgroundColor: Colors.black,
+          backgroundColor: Theme.of(context).primaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(26),
           ),
